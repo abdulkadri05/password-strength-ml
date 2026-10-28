@@ -1,16 +1,3 @@
-"""Train and evaluate the password-strength classifier.
-
-ML lifecycle steps covered here:
-  * Load the labelled dataset (building it first if needed).
-  * Transform raw passwords into engineered features (src/features.py).
-  * Split into train/test sets (stratified, so class balance is preserved).
-  * Train a model and a simple baseline to compare against.
-  * Evaluate with accuracy, a classification report and a confusion matrix.
-  * Persist the fitted model to models/ so the website can load it.
-
-Run:  python -m src.train
-"""
-
 from __future__ import annotations
 
 import os
@@ -39,7 +26,6 @@ LABELS = {0: "Weak", 1: "Medium", 2: "Strong"}
 def load_dataset() -> pd.DataFrame:
     if os.path.exists(CSV_PATH):
         return pd.read_csv(CSV_PATH)
-    print("No dataset on disk — generating synthetic one...")
     df = generate()
     df.to_csv(CSV_PATH, index=False)
     return df
@@ -53,7 +39,6 @@ def main() -> None:
     print(f"Dataset: {len(df)} passwords")
     print("Class balance:\n", df["strength"].value_counts().sort_index(), "\n")
 
-    # --- Feature extraction -------------------------------------------------
     X = extract_frame(df["password"])
     y = df["strength"].astype(int)
 
@@ -61,12 +46,10 @@ def main() -> None:
         X, y, test_size=0.2, random_state=42, stratify=y
     )
 
-    # --- Baseline (most-frequent class) -------------------------------------
     baseline = DummyClassifier(strategy="most_frequent").fit(X_train, y_train)
     base_acc = accuracy_score(y_test, baseline.predict(X_test))
     print(f"Baseline accuracy (most-frequent class): {base_acc:.3f}")
 
-    # --- Model --------------------------------------------------------------
     model = RandomForestClassifier(
         n_estimators=200, max_depth=None, random_state=42, n_jobs=-1
     )

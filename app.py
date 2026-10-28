@@ -1,15 +1,3 @@
-"""Password Strength Checker — Streamlit web app.
-
-The website takes a password as user input and returns an ML-based strength
-prediction (Weak / Medium / Strong) with a confidence score and concrete,
-feature-driven feedback on how to improve it.
-
-PRIVACY: the password is processed in memory only to compute features. It is
-never stored, logged, or sent anywhere. (A good point to make in your report.)
-
-Run locally:  streamlit run app.py
-"""
-
 from __future__ import annotations
 
 import os
@@ -32,7 +20,6 @@ def load_model():
 
 
 def feedback(pw: str, feats: dict) -> list[str]:
-    """Human-readable suggestions derived from the engineered features."""
     tips = []
     if feats["length"] < 12:
         tips.append("Make it longer — aim for at least 12 characters.")
@@ -59,16 +46,13 @@ COLORS = {"Weak": "#e5484d", "Medium": "#f5a623", "Strong": "#30a46c"}
 
 st.title("🔒 Password Strength Checker")
 st.caption(
-    "A machine-learning model (trained from scratch) rates your password. "
+    "A machine-learning model rates your password. "
     "Your input is processed in memory only and is never stored or sent anywhere."
 )
 
 bundle = load_model()
 if bundle is None:
-    st.error(
-        "No trained model found. Run `python -m src.train` first to create "
-        "models/model.joblib."
-    )
+    st.error("No trained model found. Run `python -m src.train` first.")
     st.stop()
 
 model = bundle["model"]

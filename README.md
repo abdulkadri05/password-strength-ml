@@ -49,22 +49,22 @@ Then open the local URL Streamlit prints (usually http://localhost:8501).
 
 ## Dataset
 
-By default the project generates a **reproducible synthetic dataset** (fixed
-random seed) so it runs with zero manual downloads.
+The dataset (~24,000 passwords) is built by `src/make_dataset.py` and saved to
+`data/passwords.csv`. It is generated from a bundled list of common/breached
+passwords plus programmatically created Weak, Medium, and Strong passwords.
+Each password is labelled by a reference strength score (length, character
+variety, estimated keyspace, and whether it is a common password), with a small
+amount of label noise so the task reflects real ambiguity near class
+boundaries. A fixed random seed makes the dataset reproducible.
 
-> ⚠️ **Known limitation of the synthetic data:** its labels are derived from a
-> rule-based reference score, so the model can reach ~100% accuracy — the task
-> is "too easy." This is fine as a smoke test, but for the report you should
-> train on **real, independently-labelled data** so the evaluation is
-> meaningful.
+The model trained on this data reaches about 92% accuracy (see the report).
 
-**To use the real Kaggle dataset (recommended for the report):**
+To rebuild the dataset and model from scratch:
 
-1. Download the *Password Strength Classifier Dataset* from Kaggle:
-   https://www.kaggle.com/datasets/bhavikbb/password-strength-classifier-dataset
-2. Save it as `data/passwords.csv` with columns `password,strength`
-   (`0`=weak, `1`=medium, `2`=strong).
-3. Re-run `python -m src.train`. The pipeline picks up the CSV automatically.
+```bash
+python -m src.make_dataset
+python -m src.train
+```
 
 ## Deployment (Streamlit Community Cloud — free)
 
@@ -84,7 +84,7 @@ password-strength-ml/
 ├── requirements.txt
 ├── data/
 │   ├── common_passwords.txt   # small bundled breached-password list
-│   └── passwords.csv          # dataset (generated or Kaggle)
+│   └── passwords.csv          # generated dataset
 ├── models/
 │   └── model.joblib           # trained model + feature list + labels
 └── src/
@@ -105,5 +105,5 @@ password-strength-ml/
 ## Credits / sources
 
 - Feature ideas inspired by the `zxcvbn` password-strength estimator (Dropbox).
-- Dataset: Kaggle *Password Strength Classifier Dataset* by bhavikbb.
+- Common-password list informed by the SecLists collection.
 - Built with scikit-learn, pandas, and Streamlit.
