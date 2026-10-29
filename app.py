@@ -63,7 +63,7 @@ if bundle is None:
 model = bundle["model"]
 labels = bundle["labels"]
 
-pw = st.text_input("Enter a password to test", type="password")
+pw = st.text_input("Enter a password to test")
 
 if pw:
     feats = extract(pw)
