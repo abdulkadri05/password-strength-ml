@@ -8,6 +8,12 @@ for improving it.
 Built for DAT158 Assignment 2. The whole ML lifecycle is implemented from the
 ground up: data → feature engineering → training → evaluation → deployment.
 
+## Demo
+
+![App demo](report/demo.gif)
+
+Full-quality screencast: [report/demo.mp4](report/demo.mp4).
+
 ---
 
 ## What it does
