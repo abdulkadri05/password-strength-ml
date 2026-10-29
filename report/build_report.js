@@ -48,7 +48,7 @@ children.push(new Paragraph({ heading: HeadingLevel.TITLE, alignment: AlignmentT
 children.push(new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 80 },
   children: [new TextRun({ text: "DAT158 â€” Assignment 2", color: MUTED })] }));
 children.push(new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 240 },
-  children: [new TextRun({ text: "Abdulrahman (187457), Ali · 28 October 2026" })] }));
+  children: [new TextRun({ text: "Abdulrahman (187457), Ali (679176) · 28 October 2026" })] }));
 
 children.push(h1("1: Describe the problem"));
 children.push(h2("Scope"));
