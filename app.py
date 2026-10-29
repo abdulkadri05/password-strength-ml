@@ -14,8 +14,13 @@ st.set_page_config(page_title="Password Strength Checker", page_icon="🔒")
 
 @st.cache_resource
 def load_model():
-    if not os.path.exists(MODEL_PATH):
-        return None
+    try:
+        if os.path.exists(MODEL_PATH):
+            return joblib.load(MODEL_PATH)
+    except Exception:
+        pass
+    from src.train import main as train_main
+    train_main()
     return joblib.load(MODEL_PATH)
 
 
